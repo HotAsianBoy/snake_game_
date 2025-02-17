@@ -1,13 +1,17 @@
-"""SNAKE GAME FINAL PROGRAM"""
+"""SNAKE GAME FINAL PROGRAM ADDING MUSIC"""
 import pygame
 import random
 pygame.init()
-
+pygame.mixer.init()
 screen = pygame.display.set_mode((1000, 750))
 game_icon = pygame.image.load('snake_icon.png')
 pygame.display.set_icon(game_icon)
 pygame.display.set_caption("Snake Game - by Gideon Wong")
-
+eat_sound = pygame.mixer.Sound("Cartoon Chomp Sound Effect.mp3")
+game_over_sound = pygame.mixer.Sound("Super Mario Bros - game over song.mp3")
+pygame.mixer.music.load("Epic Battle Music (No Copyright) Dragon "
+                        "Castle by @Makai-symphony.mp3")
+pygame.mixer.music.play(-1)
 
 # Coordinates containing the colors to be used in the game
 black = (0, 0, 0)
@@ -102,6 +106,8 @@ def game_loop():
 
     while not quit_game:
         while game_over:
+            pygame.mixer.music.stop()
+            game_over_sound.play()
             save_high_score(high_score)
             screen.fill(white)
             message("You Died! Press 'Q' to quit or 'A' to play again,", black,
@@ -209,6 +215,7 @@ def game_loop():
         # detects the edge of the snake and the centre of the food (circle) as
         # the collision point
         if snake_x == food_x and snake_y == food_y:
+            eat_sound.play()
             # Set a new random position for the food to be placed
             food_x = round(random.randrange(20, 1000-20)/20) * 20
             food_y = round(random.randrange(20, 720-20)/20) * 20

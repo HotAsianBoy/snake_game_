@@ -1,6 +1,4 @@
 """Snake game final program - fixing up errors"""
-import time
-
 import pygame
 import random
 pygame.init()
@@ -15,7 +13,7 @@ pygame.display.set_caption("Snake Game - by Gideon Wong")
 black = (0, 0, 0)
 white = (255, 255, 255)
 red = (255, 0, 0)
-green = (188, 227, 199)
+green = (0, 168, 0)
 yellow = (255, 255, 0)
 
 # Fonts for the game
@@ -69,7 +67,7 @@ def player_score(score, score_colour, hi_score):
 # Create snake - replaces the previous snake drawing section in main loop
 def draw_snake(snake_list):
     for i in snake_list:
-        pygame.draw.rect(screen, red, [i[0], i[1], 20, 20])
+        pygame.draw.rect(screen, green, [i[0], i[1], 20, 20])
 
 
 def message(msg, txt_colour, bkgd_colour,):
@@ -81,7 +79,6 @@ def message(msg, txt_colour, bkgd_colour,):
 
 
 def game_loop():
-    start_time = time.time()
     quit_game = False
     game_over = False
 
@@ -107,7 +104,8 @@ def game_loop():
         while game_over:
             save_high_score(high_score)
             screen.fill(white)
-            message("You Died! Press 'Q' to quit or 'A' to play again,",
+            message(f"You Died! Your score was {score}! "
+                    f" Press 'Q' to quit or 'A' to play again,",
                     black, white)
             pygame.display.update()
 
@@ -172,7 +170,7 @@ def game_loop():
         snake_x += snake_x_change
         snake_y += snake_y_change
 
-        screen.fill(green)
+        screen.fill(white)
 
         # Create snake (replaces simple rectangle in original version)
         snake_head = [snake_x, snake_y]
@@ -193,11 +191,6 @@ def game_loop():
         # Get high score
         high_score = update_high_score(score, high_score)
 
-        # Link speed of snake to player score to increase difficulty
-        if score > 3:
-            speed = score
-        else:
-            speed = 3
         # Using a sprite (instead of a previous circle) to represent food
         food = pygame.Rect(food_x, food_y, 20, 20)
         apple = pygame.image.load('apple_3.png').convert_alpha()
