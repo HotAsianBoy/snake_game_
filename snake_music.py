@@ -12,6 +12,7 @@ game_over_sound = pygame.mixer.Sound("Super Mario Bros - game over song.mp3")
 pygame.mixer.music.load("Epic Battle Music (No Copyright) Dragon "
                         "Castle by @Makai-symphony.mp3")
 pygame.mixer.music.play(-1)
+eat_sound.set_volume(20)
 
 # Coordinates containing the colors to be used in the game
 black = (0, 0, 0)
@@ -120,6 +121,7 @@ def game_loop():
                         quit_game = True
                         game_over = False
                     if event.key == pygame.K_a:
+                        game_over_sound.stop()
                         # Reset game state and restart
                         snake_x = 480
                         snake_y = 340
@@ -132,6 +134,7 @@ def game_loop():
                         food_y = round(
                             random.randrange(20, 720 - 20) / 20) * 20
                         game_over = False
+                        pygame.mixer.music.play(-1)
 
         # Handling response if user presses 'X' - giving them the option to
         # quit, start a new game, or keep playing
